@@ -94,7 +94,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 0dc059dd418a0a94589dbc64e7649867, type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: b30ea0a113f8fe143bbfe3fcef81f9c6, type: 2}
+  m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -657,6 +657,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4872704446024044796, guid: 11c54dfe2753d6f479f82308eaa4df63, type: 3}
+      propertyPath: tomatoPrefab
+      value: 
+      objectReference: {fileID: 1836257285279561367, guid: 85d5f7e2346f6de468a6380085b16eb1, type: 3}
+    - target: {fileID: 4872704446024044796, guid: 11c54dfe2753d6f479f82308eaa4df63, type: 3}
+      propertyPath: kitchenObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: e1ea79a5dfb790244812adb2e2e0434c, type: 2}
     - target: {fileID: 6792884796287350873, guid: 11c54dfe2753d6f479f82308eaa4df63, type: 3}
       propertyPath: m_Name
       value: ClearCounter (1)
