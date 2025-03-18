@@ -1,20 +1,26 @@
 using UnityEngine;
+using System;
 
-public class GameInput : MonoBehaviour
-{
-
+public class GameInput : MonoBehaviour {
     private PlayerInputAction playerInputAction;
-    private void Awake()
-    {
+    public event EventHandler OnInteractAction;
+
+    private void Awake() {
         playerInputAction = new PlayerInputAction();
         playerInputAction.Player.Enable();
+
+        playerInputAction.Player.Interact.performed += Interact_performed;
     }
-    public Vector2 GetMovementVectorNormalized()
-    {
+
+    private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
+        OnInteractAction?.Invoke(this, EventArgs.Empty);
+    }
+    
+    public Vector2 GetMovementVectorNormalized() {
         Vector2 inputVector = playerInputAction.Player.Move.ReadValue<Vector2>();
-        
-        inputVector = inputVector.normalized; 
-        
+
+        inputVector = inputVector.normalized;
+
         return inputVector;
     }
 }
