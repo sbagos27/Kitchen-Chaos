@@ -1,13 +1,9 @@
 using System;
 using UnityEngine;
 
-public class CuttingCounter : BaseCounter {
+public class CuttingCounter : BaseCounter, IHasProgress {
     
-    public event EventHandler<OnProgressChangedEventArgs>  OnProgressChanged;
-
-    public class OnProgressChangedEventArgs : EventArgs {
-        public float progressNormalized;
-    }
+    public event EventHandler<IHasProgress.OnProgressChangedEventArgs>  OnProgressChanged;
 
     public event EventHandler OnCut;
     
@@ -23,9 +19,9 @@ public class CuttingCounter : BaseCounter {
                     //player carrying something that can be cut
                     player.GetKitchenObject().SetKitchenObjectParent(this);
                     cuttingProgress = 0;
-                    CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWith(GetKitchenObject().GetKitchenObjectSO());
+                    CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
 
-                    OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs {
+                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs {
                         progressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax
                     });
 
@@ -50,9 +46,9 @@ public class CuttingCounter : BaseCounter {
             //if kitchenobject is here then cut it AND it can be cut
             cuttingProgress++;
             OnCut?.Invoke(this, EventArgs.Empty);
-            CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWith(GetKitchenObject().GetKitchenObjectSO());
+            CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
             
-            OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs {
+            OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs {
                 progressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax
             });
 
@@ -67,13 +63,12 @@ public class CuttingCounter : BaseCounter {
     }
 
     private bool HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSO) {
-        CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWith(inputKitchenObjectSO);
+        CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(inputKitchenObjectSO);
         return cuttingRecipeSO != null;
-        
     }
 
     private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSO) {
-        CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWith(inputKitchenObjectSO);
+        CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(inputKitchenObjectSO);
         if (cuttingRecipeSO != null) {
             return cuttingRecipeSO.output;
         } else {
@@ -81,7 +76,7 @@ public class CuttingCounter : BaseCounter {
         }
     }
 
-    private CuttingRecipeSO GetCuttingRecipeSOWith(KitchenObjectSO inputKitchenObjectSO) {
+    private CuttingRecipeSO GetCuttingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO) {
         foreach (CuttingRecipeSO cuttingRecipeSO in cuttingRecipeSOArray) {
             if (cuttingRecipeSO.input == inputKitchenObjectSO) {
                 return cuttingRecipeSO;
