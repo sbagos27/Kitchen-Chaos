@@ -14,14 +14,14 @@ public class PlateCompleteVisual : MonoBehaviour {
     [SerializeField] private List<KitchenObjectSO_GameObject> kitchenObjectSOGameObjectList;
 
     private void Start() {
-        plateKitchenObject.OnIngridientAdded += PlateKitchenObject_OnIngridientAdded;
+        plateKitchenObject.OnIngredientAdded += PlateKitchenObject_OnIngridientAdded;
         
         foreach (KitchenObjectSO_GameObject kitchenObjectSOGameObject in kitchenObjectSOGameObjectList) {
             kitchenObjectSOGameObject.gameObject.SetActive(false);
         }
     }
 
-    private void PlateKitchenObject_OnIngridientAdded(object sender, PlateKitchenObject.OnIngridientAddedEventArgs e) {
+    private void PlateKitchenObject_OnIngridientAdded(object sender, PlateKitchenObject.OnIngredientAddedEventArgs e) {
         foreach (KitchenObjectSO_GameObject kitchenObjectSOGameObject in kitchenObjectSOGameObjectList) {
             if (kitchenObjectSOGameObject.KitchenObjectSo == e.kitchenObjectSO) {
                 kitchenObjectSOGameObject.gameObject.SetActive(true);
