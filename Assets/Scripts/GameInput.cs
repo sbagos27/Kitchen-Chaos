@@ -49,4 +49,6 @@ public class GameInput : MonoBehaviour {
 
         return inputVector;
     }
+    
+    
 }
