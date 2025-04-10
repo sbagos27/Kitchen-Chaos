@@ -1,8 +1,19 @@
 using System;
 using UnityEngine;
+using Unity.Cinemachine;
+using UnityEngine.AI;
+
 
 public class Player : MonoBehaviour, IKitchenObjectParent {
     
+    
+    public Transform playerTransform;
+    public Camera cam;
+    public NavMeshAgent player;
+    public Animator playerAnimator;
+    public GameObject targetDest;
+    public CinemachineInputAxisController cinemachineInputAxisController;
+
     public static Player Instance { get; private set; }
 
     public event EventHandler OnPickedSomething;
@@ -54,6 +65,39 @@ public class Player : MonoBehaviour, IKitchenObjectParent {
     private void Update() {
         HandleMovement();
         HandleInteractions();
+        
+        if (Input.GetMouseButtonDown(0)) {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitPoint;
+
+            if (Physics.Raycast(ray, out hitPoint)) {
+                player.SetDestination(hitPoint.point);
+            }
+            
+        }
+
+        if (Input.GetMouseButtonDown(1)) {
+            player.ResetPath();
+        }
+
+        if (Input.GetMouseButtonDown(2)) {
+            cinemachineInputAxisController.enabled = true;
+            Debug.Log("CinemachineInputAxisController");
+        }
+
+        if (Input.GetMouseButtonUp(2)) {
+            cinemachineInputAxisController.enabled = false;
+        }
+        
+        if (player.velocity != Vector3.zero)
+        {
+            playerAnimator.SetBool("IsWalking", true);
+
+        }
+        else if (player.velocity == Vector3.zero)
+        {
+            playerAnimator.SetBool("IsWalking", false);
+        }
     }
 
     public bool IsWalking() {
@@ -82,7 +126,6 @@ public class Player : MonoBehaviour, IKitchenObjectParent {
             }   
         } else {
             SetSelectedCounter(null);
-
         }
     }
     
@@ -123,8 +166,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent {
                 if (canMove) {
                     moveDir = moveDirZ;
                 }
-                else {
-                }
+                
             }
         }
 

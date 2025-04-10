@@ -62,6 +62,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click Move"",
+                    ""type"": ""Button"",
+                    ""id"": ""8493a326-b7b6-455e-bf77-010fce900e81"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,6 +216,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b564c24-7b2a-4f0f-9a20-3b4540ad109d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -219,6 +239,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_InteractAlternate = m_Player.FindAction("InteractAlternate", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_ClickMove = m_Player.FindAction("Click Move", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -289,6 +310,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_InteractAlternate;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_ClickMove;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -297,6 +319,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @InteractAlternate => m_Wrapper.m_Player_InteractAlternate;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @ClickMove => m_Wrapper.m_Player_ClickMove;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -318,6 +341,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @ClickMove.started += instance.OnClickMove;
+            @ClickMove.performed += instance.OnClickMove;
+            @ClickMove.canceled += instance.OnClickMove;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -334,6 +360,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @ClickMove.started -= instance.OnClickMove;
+            @ClickMove.performed -= instance.OnClickMove;
+            @ClickMove.canceled -= instance.OnClickMove;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -357,5 +386,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnInteractAlternate(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnClickMove(InputAction.CallbackContext context);
     }
 }

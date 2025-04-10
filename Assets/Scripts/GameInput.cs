@@ -1,8 +1,10 @@
 using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
+using UnityEngine.AI;
 
 public class GameInput : MonoBehaviour {
+    
     private PlayerInputAction playerInputAction;
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAlternateAction;
@@ -49,6 +51,5 @@ public class GameInput : MonoBehaviour {
 
         return inputVector;
     }
-    
     
 }
