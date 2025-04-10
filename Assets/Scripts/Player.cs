@@ -82,7 +82,6 @@ public class Player : MonoBehaviour, IKitchenObjectParent {
 
         if (Input.GetMouseButtonDown(2)) {
             cinemachineInputAxisController.enabled = true;
-            Debug.Log("CinemachineInputAxisController");
         }
 
         if (Input.GetMouseButtonUp(2)) {
